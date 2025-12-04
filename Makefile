@@ -32,10 +32,10 @@ setup: tailwindcss-init
 
 tailwindcss-init:
 	npm i &&\
-	npx tailwindcss build -i assets/css/style.css -o assets/css/tailwind.css -m
+	npx tailwindcss@3.4.1 build -i assets/css/style.css -o assets/css/tailwind.css -m
 
 tailwindcss-build:
-	npx tailwindcss build -i assets/css/style.css -o assets/css/tailwind.css -m
+	npx tailwindcss@3.4.1 build -i assets/css/style.css -o assets/css/tailwind.css -m
 
 clean:
 	rm -rf *.o *.so $(BINARY_NAMR)

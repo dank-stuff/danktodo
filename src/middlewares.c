@@ -5,6 +5,18 @@ result *check_token_and_return_user(const char *token);
 
 int handle_redirect(const struct _u_request *req, struct _u_response *res,
                     const char *url) {
+  char *is_htmx = (char *)u_map_get(req->map_header, "HX-Request");
+  if (is_htmx != NULL && strcmp(is_htmx, "true") == 0) {
+    ulfius_set_response_properties(
+        res,
+        U_OPT_HEADER_PARAMETER, "HX-Retarget", "#container",
+        U_OPT_HEADER_PARAMETER, "HX-Redirect", url,
+        U_OPT_HEADER_PARAMETER, "HX-Push-Url", url,
+        U_OPT_NONE);
+
+    return U_CALLBACK_CONTINUE;
+  }
+
   char *body = (char *)malloc(strlen(url) + 26);
   sprintf(body, "<a href=\"%s\">301</a>.\n", url);
   ulfius_set_response_properties(res, U_OPT_STATUS, 301, U_OPT_STRING_BODY,
